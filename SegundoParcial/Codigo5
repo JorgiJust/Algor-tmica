@@ -1,1 +1,61 @@
+Bool wise[1000]
 
+Vector <int> grafo[1000]void DFS (int nodolnicial){
+
+do by...
+
+stack<int> stack;
+
+pila.push(nodolnicial);
+
+while(!stack.emptx()){-> is not empty
+
+int currentNode = pila.top();
+
+queue.pop();
+
+vis[currentNode] = true;
+
+for (int i = 0; i<grafo[currentNode].size; i++){
+
+int neighbor = graph[currentnode][i];
+
+if(!vis[neighbor]){ →> has not been visited
+
+52las...
+
+stack.push(neighbor);
+
+}
+
+5917
+
+}
+
+Int main(){
+
+int noodes, edges;
+
+cin>>nodes>.edges;
+
+for(int I= 0; I< aristas; i++)
+
+int nodolnicial, nodoFinala
+
+cin>>nodolnicial>>nodoFinal;
+
+grafo[nodolnicial].pushback[nodoFinal);
+
+}int S, T;
+
+cin>>S>>T;
+
+dfs(S);
+
+if(vis[T]){
+
+ possible"<<end];
+
+}else{
+
+çout<<"You couldn't know him"<<end):
