@@ -1,1 +1,31 @@
+void BFS(grafo &g,int s){
 
+int v;
+
+queue<int> cola;
+
+list<int>::iterator it;
+
+nodoVisitado[s]=true;
+
+cola.push(s);
+
+while(!cola.empty()){
+
+v=cola.front(),cola.pop();
+
+nodeProcesado[v]=true;
+
+processorNode(v);
+
+if(!nodoVisitado[*it]){
+
+for(it=g.lados[v].begin(); it!=g.lados[v].end(); ++it){ nodoPadre[*it]= }
+
+cola.push(*it), nodoVisitado[*it]=true;
+
+if(!nodoProcesado[*it]) {
+
+processside(v,*it);
+
+}
