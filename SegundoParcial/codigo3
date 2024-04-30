@@ -1,1 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
 
+using namespace std;
+
+bool cmp(const pair<double, pair<int, int>>& a, const pair<double, pair<int, int>>& b) {
+    if (a.first != b.first)
+        return a.first < b.first;
+    if (a.second.first != b.second.first)
+        return a.second.first > b.second.first;
+    return a.second.second > b.second.second;
+}
+
+bool puede_alcanzar_todas_las_estaciones(const vector<pair<int, int>>& ubicaciones_estaciones) {
+    vector<vector<pair<double, pair<int, int>>>> grafo(ubicaciones_estaciones.size());
+    for (int i = 0; i < ubicaciones_estaciones.size(); ++i) {
+        for (int j = 0; j < ubicaciones_estaciones.size(); ++j) {
+            if (i != j) {
+                double distancia = hypot(ubicaciones_estaciones[i].first - ubicaciones_estaciones[j].first, 
+                                        ubicaciones_estaciones[i].second - ubicaciones_estaciones[j].second);
+                grafo[i].emplace_back(distancia, ubicaciones_estaciones[j]);
+            }
+        }
+        sort(grafo[i].begin(), grafo[i].end(), cmp);
+    }
+
+    set<pair<int, int>> visitado;
+    queue<pair<int, int>> cola;
+    cola.push(ubicaciones_estaciones[0]); // Comenzar desde la estación de despacho de pedidos
+    visitado.insert(ubicaciones_estaciones[0]);
+
+    while (!cola.empty()) {
+        auto estacion_actual = cola.front();
+        cola.pop();
+        if (visitado.size() == ubicaciones_estaciones.size())
+            return true;
+        for (const auto& vecino : grafo[&estacion_actual - &ubicaciones_estaciones[0]]) {
+            if (!visitado.count(vecino.second)) {
+                cola.push(vecino.second);
+                visitado.insert(vecino.second);
+            }
+        }
+    }
+    return false;
+}
+
+void imprimir_mensaje(bool todas_alcanzables) {
+    if (todas_alcanzables) {
+        cout << "Todas las estaciones son alcanzables." << endl;
+    } else {
+        cout << "Hay estaciones que no son alcanzables." << endl;
+    }
+}
