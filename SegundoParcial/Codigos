@@ -1,1 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_set>
 
+using namespace std;
+
+const vector<vector<int>>& lista_adj, int nodo_inicial, int ttl, unordered_set<int>& nodos_inaccesibles {
+    vector<int> dist(lista_adj.size(), -1);
+    queue<pair<int, int>> q;
+    q.push({nodo_inicial, ttl});
+    dist[nodo_inicial] = ttl;
+
+    while (!q.empty()) {
+        int nodo_actual = q.front().first;
+        int ttl_actual = q.front().second;
+        q.pop();
+
+        for (int vecino : lista_adj[nodo_actual]) {
+            if (dist[vecino] == -1 && ttl_actual > 0) {
+                dist[vecino] = ttl_actual - 1;
+                q.push({vecino, ttl_actual - 1});
+            }
+        }
+    }
+
+    for (int i = 0; i < dist.size(); ++i) {
+        if (dist[i] == -1)
+            nodos_inaccesibles.insert(i);
+    }
+}
+    int num_casos = 1;
+    while (true) {
+        int NC;
+        cin >> NC;
+        if (NC == 0) break;
+
+        vector<vector<int>> lista_adj(100);
+        for (int i = 0; i < NC; ++i) {
+            int nodo1, nodo2;
+            cin >> nodo1 >> nodo2;
+            lista_adj[nodo1].push_back(nodo2);
+            lista_adj[nodo2].push_back(nodo1);
+        }
+
+        while (true) {
+            int nodo_inicial, ttl;
+            cin >> nodo_inicial >> ttl;
+            if (nodo_inicial == 0 && ttl == 0) break;
+
+            unordered_set<int> nodos_inaccesibles;
+            bfs(lista_adj, nodo_inicial, ttl, nodos_inaccesibles);
+
+            cout << "Case " << num_casos << ": " << nodos_inaccesibles.size()
+                 << "nodes not reachable from node" << nodo_inicial << " with TTL = " << ttl << "." << endl;
+
+            ++num_casos;
+        }
+    }
+
+    return 0;
+}
